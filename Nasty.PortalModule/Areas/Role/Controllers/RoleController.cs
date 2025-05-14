@@ -10,7 +10,7 @@ namespace Nasty.PortalModule.Areas.Role
 	[Area("Portal")]
 	[Route("[Area]/[controller]/[action]"), ApiExplorerSettings(GroupName = "Portal")]
 	[ApiController]
-    [NastyAuthorize(AuthenticationSchemes = "Cookies")]
+    [NastyAuthorize(AuthenticationSchemes = "Bearer,Cookies")]
     public class RoleController : ControllerBase
 	{
 
@@ -54,9 +54,9 @@ namespace Nasty.PortalModule.Areas.Role
 		/// <param name="params"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public IActionResult DeleteRoles([FromBody] BatchParams @params)
+		public IActionResult DeleteRoles([FromBody] BatchParams<string> @params)
 		{
-			var data = m_RoleService.DeleteRoles(@params.Ids);
+			var data = m_RoleService.DeleteRoles(@params.Items);
 			return Ok(data);
 		}
 	}

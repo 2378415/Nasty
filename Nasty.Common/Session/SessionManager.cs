@@ -1,24 +1,25 @@
-﻿using Nasty.Common.Redis;
+﻿using Nasty.Common.Model;
+using Nasty.Common.Redis;
 using Newtonsoft.Json;
 
 namespace Nasty.Common.Session
 {
 	public static class SessionManager
 	{
-		public static UserInfo? GetUserInfo(string account)
+		public static UserInfoModel? GetUserInfo(string account)
 		{
 			var key = $"{account}:UserInfo";
 			var value = RedisStore.GetDatabase()?.StringGet(key).ToString();
 
 			if (!string.IsNullOrEmpty(value))
 			{
-				return JsonConvert.DeserializeObject<UserInfo>(value ?? string.Empty);
+				return JsonConvert.DeserializeObject<UserInfoModel>(value ?? string.Empty);
 			}
 
 			return null;
 		}
 
-		public static void SetUserInfo(string account, UserInfo info)
+		public static void SetUserInfo(string account, UserInfoModel info)
 		{
 			var key = $"{account}:UserInfo";
 			var value = JsonConvert.SerializeObject(info);

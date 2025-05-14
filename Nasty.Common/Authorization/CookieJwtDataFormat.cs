@@ -38,7 +38,7 @@ namespace Nasty.Common.Authorization
 
         public string Protect(AuthenticationTicket data)
         {
-            return Protect(data, DateTime.Now.AddDays(1)); // 默认过期时间为1天
+            return Protect(data, DateTime.Now.AddDays(3)); // 默认过期时间为3天
         }
 
         public string Protect(AuthenticationTicket data, string? purpose)

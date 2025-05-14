@@ -2,8 +2,10 @@
 
 namespace Nasty.Common.LoadParams
 {
-	public class BatchParams
+	public class BatchParams<T>
 	{
-		public required List<string> Ids { get; set; }
+		public string? Id { get; set; }
+
+		public List<T>? Items { get; set; }
 	}
 }

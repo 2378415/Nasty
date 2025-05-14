@@ -1,4 +1,5 @@
-﻿using SqlSugar;
+﻿using Nasty.Common.Model;
+using SqlSugar;
 
 namespace Nasty.Common.Session
 {
@@ -10,7 +11,7 @@ namespace Nasty.Common.Session
 		/// <summary>
 		/// 当前生命周期用户
 		/// </summary>
-		public static AsyncLocal<UserInfo> CurrentUser = new AsyncLocal<UserInfo>();
+		public static AsyncLocal<UserInfoModel> CurrentUser = new AsyncLocal<UserInfoModel>();
 
 		/// <summary>
 		/// 当前生命周期数据库

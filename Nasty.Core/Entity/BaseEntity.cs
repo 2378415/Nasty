@@ -53,8 +53,6 @@ namespace Nasty.Core.Entity
 		}
 		#endregion
 
-
-
 		#region 返回需求修改的数据
 		public (string Table, Dictionary<string, object> Fields) GetUpdateFields()
 		{
