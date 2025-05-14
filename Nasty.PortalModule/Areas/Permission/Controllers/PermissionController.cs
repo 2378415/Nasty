@@ -10,7 +10,7 @@ namespace Nasty.PortalModule.Areas.Permission
 	[Area("Portal")]
 	[Route("[Area]/[controller]/[action]"), ApiExplorerSettings(GroupName = "Portal")]
 	[ApiController]
-    [NastyAuthorize(AuthenticationSchemes = "Cookies")]
+    [NastyAuthorize(AuthenticationSchemes = "Bearer,Cookies")]
     public class PermissionController : ControllerBase
 	{
 
@@ -54,9 +54,9 @@ namespace Nasty.PortalModule.Areas.Permission
 		/// <param name="params"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public IActionResult DeletePermissions([FromBody] BatchParams @params)
+		public IActionResult DeletePermissions([FromBody] BatchParams<string> @params)
 		{
-			var data = m_PermissionService.DeletePermissions(@params.Ids);
+			var data = m_PermissionService.DeletePermissions(@params.Items);
 			return Ok(data);
 		}
 
@@ -93,9 +93,9 @@ namespace Nasty.PortalModule.Areas.Permission
 		/// <param name="params"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public IActionResult DeletePermissionGroups([FromBody] BatchParams @params)
+		public IActionResult DeletePermissionGroups([FromBody] BatchParams<string> @params)
 		{
-			var data = m_PermissionService.DeletePermissionGroups(@params.Ids);
+			var data = m_PermissionService.DeletePermissionGroups(@params.Items);
 			return Ok(data);
 		}
 	}

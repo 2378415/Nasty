@@ -2,6 +2,6 @@
 {
 	public class ArgParams
 	{
-		public required string Arg { get; set; }
+		public string? Arg { get; set; }
 	}
 }

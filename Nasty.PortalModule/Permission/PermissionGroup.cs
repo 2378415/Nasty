@@ -5,8 +5,8 @@ using SqlSugar;
 namespace Nasty.PortalModule.Permission
 {
 	[SugarTable("SysPermissionGroup")]
-	public class PermissionGroup : BaseEntity
-	{
+	public class PermissionGroup : StandardEntity
+    {
 		/// <summary>
 		/// 名称
 		/// </summary>

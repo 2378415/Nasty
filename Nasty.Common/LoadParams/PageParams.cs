@@ -2,8 +2,8 @@
 {
 	public class PageParams
 	{
-		public required int Current { get; set; }
+		public int Current { get; set; }
 
-		public required int PageSize { get; set; }
+		public int PageSize { get; set; }
 	}
 }

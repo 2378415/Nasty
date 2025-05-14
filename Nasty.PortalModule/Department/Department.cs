@@ -6,8 +6,8 @@ using SqlSugar;
 namespace Nasty.PortalModule.Department
 {
 	[SugarTable("SysDepartment")]
-	public class Department : BaseEntity
-	{
+	public class Department : StandardEntity
+    {
 		/// <summary>
 		/// 名称
 		/// </summary>

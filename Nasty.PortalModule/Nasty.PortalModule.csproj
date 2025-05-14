@@ -5,7 +5,12 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Library</OutputType>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.S3" Version="4.0.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Nasty.Common\Nasty.Common.csproj" />
