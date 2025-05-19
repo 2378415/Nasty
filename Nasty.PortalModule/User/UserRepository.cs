@@ -142,7 +142,7 @@ namespace Nasty.PortalModule.User
 
             if (!string.IsNullOrEmpty(@params.Name)) _SQLExpress.Where((t) => t.Name.Contains(@params.Name));
 
-            _SQLExpress = _SQLExpress.OrderBy((t) => t.Name, OrderByType.Desc);
+            _SQLExpress = _SQLExpress.OrderBy((t) => t.CreateTime, OrderByType.Desc);
 
             var data = _SQLExpress.ToPageList(@params.Current, @params.PageSize, ref total, ref totalPage);
 

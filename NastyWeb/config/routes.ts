@@ -28,6 +28,14 @@ export default [
         component: './system/user',
         access:'verify',
         roles:["Admin"]
+      },
+      {
+        name: 'permission',
+        icon: 'smile',
+        path: '/system/permission',
+        component: './system/permission',
+        access:'verify',
+        roles:["Admin"]
       }
     ],
   },

@@ -26,7 +26,10 @@ namespace Nasty.PortalModule.Permission
 		public ResultData<PermissionGroup> SavePermissionGroup(PermissionGroupModel model);
 
 		public ResultData<string> DeletePermissionGroups(List<string> ids);
-	}
+
+		public PageData<PermissionGroup> GetPermissionGroupPage(GetPermissionGroupPageParams @params);
+
+    }
 
 	public class PermissionRepository : SqlRepository<Permission>, IPermissionRepository
 	{
@@ -114,5 +117,28 @@ namespace Nasty.PortalModule.Permission
 				return result;
 			}
 		}
-	}
+
+        public PageData<PermissionGroup> GetPermissionGroupPage(GetPermissionGroupPageParams @params)
+        {
+            int totalPage = 0;
+            int total = 0;
+            var pageData = new PageData<PermissionGroup>();
+
+            var _SQLExpress = Db.Queryable<PermissionGroup>().IncludesAllFirstLayer();
+
+            if (!string.IsNullOrEmpty(@params.Name)) _SQLExpress.Where((t) => t.Name.Contains(@params.Name));
+
+            _SQLExpress = _SQLExpress.OrderBy((t) => t.CreateTime, OrderByType.Desc);
+
+            var data = _SQLExpress.ToPageList(@params.Current, @params.PageSize, ref total, ref totalPage);
+
+            pageData.Total = total;
+            pageData.TotalPage = totalPage;
+            pageData.Data = data;
+
+            pageData.Current = @params.Current;
+            pageData.PageSize = @params.PageSize;
+            return pageData;
+        }
+    }
 }

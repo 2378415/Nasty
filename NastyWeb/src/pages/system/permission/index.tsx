@@ -18,7 +18,7 @@ async function getPageApi(
   options?: any,
 ) {
   return new Promise<any>((resolve, reject) => {
-    HttpClient.post("/Portal/User/GetUserPage", { ...params })
+    HttpClient.post("/Portal/Permission/GetPermissionGroupPage", { ...params })
       .then((data) => {
         data = util.toLowerCaseKeys(data);
         resolve(data);
@@ -28,6 +28,7 @@ async function getPageApi(
   });
 
 }
+
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -48,10 +49,10 @@ const TableList: React.FC = () => {
       okText: '确认',
       cancelText: '取消',
       onOk: () => {
-        HttpClient.post("/Portal/User/DeleteUser", { id: data.Id }).then((res) => {
-          if(res.IsSuccess){
+        HttpClient.post("/Portal/Permission/DeletePermissionGroups", { items: [data.Id] }).then((res) => {
+          if (res.IsSuccess) {
             message.success('提交成功');
-          }else{
+          } else {
             message.success(res.Message);
           }
 
@@ -67,12 +68,12 @@ const TableList: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: "用户名称",
+      title: "分组名称",
       dataIndex: 'Name',
     },
     {
-      title: "用户账号",
-      dataIndex: 'Account'
+      title: "分组编码",
+      dataIndex: 'Code'
     },
     {
       title: "创建时间",
@@ -107,7 +108,7 @@ const TableList: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any, any>
-        headerTitle={"用户列表"}
+        headerTitle={"权限分组"}
         actionRef={actionRef}
         rowKey="Id"
         search={{

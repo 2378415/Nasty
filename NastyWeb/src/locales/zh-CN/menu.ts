@@ -1,6 +1,8 @@
 export default {
   'menu.system': "系统管理",
   'menu.system.user': "用户管理",
+  'menu.system.permission': "权限配置",
+  'menu.system.role': "角色配置",
   'menu.welcome': '欢迎',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
