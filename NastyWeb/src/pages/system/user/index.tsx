@@ -83,6 +83,17 @@ const TableList: React.FC = () => {
       }
     },
     {
+      title: "角色",
+      dataIndex: 'Group',
+      hideInSearch: true,
+      render: (_, record) => {
+        let roles = record.Roles || [];
+        roles = roles.map((t: any) => t.Name);
+        if (roles.length == 0) return "-";
+        return roles.join(",");
+      }
+    },
+    {
       title: "创建时间",
       dataIndex: 'CreateTime',
       hideInSearch: true,
