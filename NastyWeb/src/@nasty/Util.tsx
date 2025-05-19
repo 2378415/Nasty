@@ -80,7 +80,7 @@ const equal = (arr1: string[], arr2: string[]) => {
     return [...set1].every(item => set2.has(item));
 }
 
-const getFileListUIDs = (fileList:any[]) => {
+const getFileListUIDs = (fileList: any[]) => {
     let uids: string[] = [];
     fileList.forEach((t) => {
         if (t.response) {

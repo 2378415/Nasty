@@ -48,7 +48,13 @@ const Upload: React.FC<UploadProps> = (props) => {
       }
 
       if (status == "done" || status == "removed") {
-        setFileList(v.fileList);
+        
+        //刚上传的图片，可能无法正确预览，需要手动赋值url参数
+        let items = v.fileList;
+        items.map((t) => { if (!t.url) t.url = util.getFileUrl(t.response); });
+
+        //设置数据，并且根据count数量决定返回是数组还是单个
+        setFileList(items);
         let data: any = util.getServiceFiles(v);
         data = count == 1 ? (data.length > 0 ? data[0] : null) : data;
         if (props.onChange) props.onChange(data);
