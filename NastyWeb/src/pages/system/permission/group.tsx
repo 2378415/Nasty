@@ -11,7 +11,7 @@ import { Button, Drawer, Input, Modal, message } from 'antd';
 import React, { useCallback, useRef, useState } from 'react';
 import { HttpClient } from '@/@nasty/Axios';
 import { util } from '@/@nasty/Util';
-import { AddModel, UpdateModel } from './index.model';
+import { AddModel, UpdateModel } from './group.model';
 
 async function getPageApi(
   params: any,

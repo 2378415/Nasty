@@ -30,10 +30,10 @@ export default [
         roles:["Admin"]
       },
       {
-        name: 'permission',
+        name: 'permissionGroup',
         icon: 'smile',
-        path: '/system/permission',
-        component: './system/permission',
+        path: '/system/permission/group',
+        component: './system/permission/group',
         access:'verify',
         roles:["Admin"]
       }
