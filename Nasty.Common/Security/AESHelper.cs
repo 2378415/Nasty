@@ -5,6 +5,22 @@ namespace Nasty.Common.Security
 {
     public class AESHelper
     {
+        public static byte[] StringTo256BitHash(string input)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+                return sha256.ComputeHash(inputBytes); // 返回 32 字节数组
+            }
+        }
+
+        /// <summary>
+        /// AES/CBC/PKCS7/IVIsNull 加密 变种版本（将密钥二次256哈希）
+        /// </summary>
+        /// <param name="plainText"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static string Encrypt(string plainText, string key)
         {
             // 检查参数
@@ -13,16 +29,14 @@ namespace Nasty.Common.Security
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException(nameof(key));
 
-            // 确保密钥长度正确（AES-128:16, AES-192:24, AES-256:32）
-            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
-            if (keyBytes.Length != 16 && keyBytes.Length != 24 && keyBytes.Length != 32)
-                throw new ArgumentException("Key must be 16, 24 or 32 bytes long");
+            byte[] keyBytes = StringTo256BitHash(key);
 
             using (Aes aesAlg = Aes.Create())
             {
                 aesAlg.Key = keyBytes;
-                aesAlg.Mode = CipherMode.ECB; // ECB模式
+                aesAlg.Mode = CipherMode.CBC; // CBC模式
                 aesAlg.Padding = PaddingMode.PKCS7; // PKCS7填充
+                aesAlg.IV = new byte[16]; // 全零 IV
 
                 // 创建加密器
                 ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
@@ -41,6 +55,13 @@ namespace Nasty.Common.Security
             }
         }
 
+        /// <summary>
+        /// AES/CBC/PKCS7/IVIsNull 解密 变种版本（将密钥二次256哈希）
+        /// </summary>
+        /// <param name="cipherText"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static string Decrypt(string cipherText, string key)
         {
             // 检查参数
@@ -49,16 +70,14 @@ namespace Nasty.Common.Security
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException(nameof(key));
 
-            // 确保密钥长度正确
-            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
-            if (keyBytes.Length != 16 && keyBytes.Length != 24 && keyBytes.Length != 32)
-                throw new ArgumentException("Key must be 16, 24 or 32 bytes long");
+            byte[] keyBytes = StringTo256BitHash(key);
 
             using (Aes aesAlg = Aes.Create())
             {
                 aesAlg.Key = keyBytes;
-                aesAlg.Mode = CipherMode.ECB; // ECB模式
+                aesAlg.Mode = CipherMode.CBC; // CBC模式
                 aesAlg.Padding = PaddingMode.PKCS7; // PKCS7填充
+                aesAlg.IV = new byte[16]; // 全零 IV
 
                 // 创建解密器
                 ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
