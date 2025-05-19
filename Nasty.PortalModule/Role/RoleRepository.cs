@@ -27,7 +27,7 @@ namespace Nasty.PortalModule.Role
 
 		public ResultData<string> SaveRolePermission(SaveRolePermissionModel model);
 
-
+		public List<Role> GetRoles(GetRolesParams @params);
     }
 
 	public class RoleRepository : SqlRepository<Role>, IRoleRepository
@@ -80,6 +80,14 @@ namespace Nasty.PortalModule.Role
             pageData.Current = @params.Current;
             pageData.PageSize = @params.PageSize;
             return pageData;
+        }
+
+        public List<Role> GetRoles(GetRolesParams @params)
+        {
+            var _SQLExpress = Db.Queryable<Role>();
+            if (!string.IsNullOrEmpty(@params.Name)) _SQLExpress.Where((t) => t.Name.Contains(@params.Name));
+            if (!string.IsNullOrEmpty(@params.Code)) _SQLExpress.Where((t) => t.Code.Contains(@params.Code));
+            return _SQLExpress.ToList();
         }
 
         public ResultData<Role> SaveRole(RoleModel model)

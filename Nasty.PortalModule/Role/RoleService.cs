@@ -12,7 +12,9 @@ namespace Nasty.PortalModule.Role
 	{
 		public Role GetRole(string id);
 
-		public ResultData<Role> SaveRole(RoleModel model);
+		public List<Role> GetRoles(GetRolesParams @params);
+
+        public ResultData<Role> SaveRole(RoleModel model);
 
 		public ResultData<string> DeleteRoles(List<string> ids);
 
@@ -49,6 +51,11 @@ namespace Nasty.PortalModule.Role
         public ResultData<string> SaveRolePermission(SaveRolePermissionModel model)
         {
             return RoleRepository.SaveRolePermission(model);
+        }
+
+        public List<Role> GetRoles(GetRolesParams @params)
+        {
+            return RoleRepository.GetRoles(@params);
         }
     }
 }

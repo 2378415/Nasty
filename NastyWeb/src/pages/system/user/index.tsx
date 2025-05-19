@@ -11,7 +11,7 @@ import { Avatar, Button, Drawer, Input, Modal, message } from 'antd';
 import React, { useCallback, useRef, useState } from 'react';
 import { HttpClient } from '@/@nasty/Axios';
 import { util } from '@/@nasty/Util';
-import { AddModel, UpdateModel } from './index.model';
+import { AddModel, UpdateModel, SetUserRoleModel } from './index.model';
 
 async function getPageApi(
   params: any,
@@ -90,7 +90,7 @@ const TableList: React.FC = () => {
         let roles = record.Roles || [];
         roles = roles.map((t: any) => t.Name);
         if (roles.length == 0) return "-";
-        return roles.join(",");
+        return roles.join(" , ");
       }
     },
     {
@@ -111,6 +111,12 @@ const TableList: React.FC = () => {
         <UpdateModel
           trigger={<a>{"编辑"}</a>}
           key="update"
+          values={record}
+          reload={reload}
+        />,
+        <SetUserRoleModel
+          trigger={<a>{"角色"}</a>}
+          key="role"
           values={record}
           reload={reload}
         />,

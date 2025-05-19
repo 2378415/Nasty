@@ -37,13 +37,24 @@ namespace Nasty.PortalModule.Areas.Role
 			return Ok(data);
 		}
 
+        /// <summary>
+        /// 批量查询角色
+        /// </summary>
+        /// <param name="params"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult GetRoles([FromBody] GetRolesParams @params)
+        {
+            var data = m_RoleService.GetRoles(@params);
+            return Ok(data);
+        }
 
-		/// <summary>
-		/// 保存角色
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		[HttpPost]
+        /// <summary>
+        /// 保存角色
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
 		public IActionResult SaveRole([FromBody] RoleModel model)
 		{
 			var data = m_RoleService.SaveRole(model);
