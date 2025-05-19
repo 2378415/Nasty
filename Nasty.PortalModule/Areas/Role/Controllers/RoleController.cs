@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Nasty.Common.LoadParams;
 using Nasty.Core.Attributes;
+using Nasty.PortalModule.Areas.Permission.Model;
 using Nasty.PortalModule.Areas.Role.Model;
+using Nasty.PortalModule.Areas.User.Model;
 using Nasty.PortalModule.Role;
 
 namespace Nasty.PortalModule.Areas.Role
@@ -59,5 +61,30 @@ namespace Nasty.PortalModule.Areas.Role
 			var data = m_RoleService.DeleteRoles(@params.Items);
 			return Ok(data);
 		}
-	}
+
+
+        /// <summary>
+        /// 分页查询角色
+        /// </summary>
+        /// <param name="params"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult GetRolePage([FromBody] GetRolePageParams @params)
+        {
+            var data = m_RoleService.GetRolePage(@params);
+            return Ok(data);
+        }
+
+        /// <summary>
+        /// 保存用户角色
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult SaveRolePermission([FromBody] SaveRolePermissionModel model)
+        {
+            var data = m_RoleService.SaveRolePermission(model);
+            return Ok(data);
+        }
+    }
 }

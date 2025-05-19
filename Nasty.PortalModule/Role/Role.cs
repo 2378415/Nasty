@@ -20,7 +20,7 @@ namespace Nasty.PortalModule.Role
 		public string? Code { get; set; }
 
 		/// <summary>
-		/// 用户角色
+		/// 用户权限
 		/// </summary>
 		[Navigate(typeof(RolePermission), nameof(RolePermission.RoleId), nameof(RolePermission.PermissionId))]
 		public List<Permission.Permission>? Permissions { get; set; }

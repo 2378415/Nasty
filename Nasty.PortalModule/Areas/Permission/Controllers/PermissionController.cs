@@ -35,13 +35,24 @@ namespace Nasty.PortalModule.Areas.Permission
 			return Ok(data);
 		}
 
+        /// <summary>
+        /// 批量查询权限
+        /// </summary>
+        /// <param name="params"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult GetPermissions([FromBody] GetPermissionsParams @params)
+        {
+            var data = m_PermissionService.GetPermissions(@params);
+            return Ok(data);
+        }
 
-		/// <summary>
-		/// 保存权限
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		[HttpPost]
+        /// <summary>
+        /// 保存权限
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
 		public IActionResult SavePermission([FromBody] PermissionModel model)
 		{
 			var data = m_PermissionService.SavePermission(model);

@@ -33,6 +33,8 @@ namespace Nasty.PortalModule.Permission
 		public PageData<PermissionGroup> GetPermissionGroupPage(GetPermissionGroupPageParams @params);
 
         public PageData<Permission> GetPermissionPage(GetPermissionPageParams @params);
+
+		public List<Permission> GetPermissions(GetPermissionsParams @params);
     }
 
 	public class PermissionRepository : SqlRepository<Permission>, IPermissionRepository
@@ -174,6 +176,14 @@ namespace Nasty.PortalModule.Permission
             if (!string.IsNullOrEmpty(@params.Name)) _SQLExpress.Where((t) => t.Name.Contains(@params.Name));
 
 			return _SQLExpress.ToList();
+        }
+
+        public List<Permission> GetPermissions(GetPermissionsParams @params)
+        {
+            var _SQLExpress = Db.Queryable<Permission>();
+            if (!string.IsNullOrEmpty(@params.GroupId)) _SQLExpress.Where((t) => t.GroupId.Contains(@params.GroupId));
+
+            return _SQLExpress.ToList();
         }
     }
 }

@@ -77,8 +77,7 @@ namespace Nasty.PortalModule.User
         {
             var user = UserRepository.GetDeepUser(id);
             var roles = ((user.Roles?.Select(x => x.Code).ToArray()) as string[]) ?? Array.Empty<string>();
-            var permissions = (user.Roles?.Where(x => x.Permissions != null).Select(x => x.Code).ToArray() as string[]) ?? Array.Empty<string>();
-
+            var permissions = (user.Roles.Where(t => t.Permissions != null).SelectMany((t) => t.Permissions).Select((t) => t.Code).ToArray() as string[]) ?? Array.Empty<string>();
 
             var info = new UserInfoModel();
             info.Id = user.Id;

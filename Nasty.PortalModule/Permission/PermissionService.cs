@@ -10,7 +10,9 @@ namespace Nasty.PortalModule.Permission
 	{
 		public Permission GetPermission(string id);
 
-		public ResultData<Permission> SavePermission(PermissionModel model);
+		public List<Permission> GetPermissions(GetPermissionsParams @params);
+
+        public ResultData<Permission> SavePermission(PermissionModel model);
 
 		public ResultData<string> DeletePermissions(List<string> ids);
 
@@ -77,5 +79,10 @@ namespace Nasty.PortalModule.Permission
 		{
 			return PermissionRepository.SavePermissionGroup(model);
 		}
-	}
+
+        public List<Permission> GetPermissions(GetPermissionsParams @params)
+        {
+            return PermissionRepository.GetPermissions(@params);
+        }
+    }
 }

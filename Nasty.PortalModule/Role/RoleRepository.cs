@@ -1,7 +1,9 @@
 ﻿using Nasty.Common.LoadParams;
 using Nasty.Core.Repository;
 using Nasty.Core.SuperExtension;
+using Nasty.PortalModule.Areas.Permission.Model;
 using Nasty.PortalModule.Areas.Role.Model;
+using Nasty.PortalModule.Permission;
 using Nasty.PortalModule.User;
 using SqlSugar;
 using System;
@@ -20,7 +22,13 @@ namespace Nasty.PortalModule.Role
 		public ResultData<Role> SaveRole(RoleModel model);
 
 		public ResultData<string> DeleteRoles(List<string> ids);
-	}
+
+		public PageData<Role> GetRolePage(GetRolePageParams @params);
+
+		public ResultData<string> SaveRolePermission(SaveRolePermissionModel model);
+
+
+    }
 
 	public class RoleRepository : SqlRepository<Role>, IRoleRepository
 	{
@@ -51,7 +59,30 @@ namespace Nasty.PortalModule.Role
 			return this.Db.Queryable<Role>().IncludesAllFirstLayer().InSingle(id);
 		}
 
-		public ResultData<Role> SaveRole(RoleModel model)
+        public PageData<Role> GetRolePage(GetRolePageParams @params)
+        {
+            int totalPage = 0;
+            int total = 0;
+            var pageData = new PageData<Role>();
+
+            var _SQLExpress = Db.Queryable<Role>().IncludesAllFirstLayer();
+
+            if (!string.IsNullOrEmpty(@params.Name)) _SQLExpress.Where((t) => t.Name.Contains(@params.Name));
+            if (!string.IsNullOrEmpty(@params.Code)) _SQLExpress.Where((t) => t.Code.Contains(@params.Code));
+            _SQLExpress = _SQLExpress.OrderBy((t) => t.CreateTime, OrderByType.Desc);
+
+            var data = _SQLExpress.ToPageList(@params.Current, @params.PageSize, ref total, ref totalPage);
+
+            pageData.Total = total;
+            pageData.TotalPage = totalPage;
+            pageData.Data = data;
+
+            pageData.Current = @params.Current;
+            pageData.PageSize = @params.PageSize;
+            return pageData;
+        }
+
+        public ResultData<Role> SaveRole(RoleModel model)
 		{
 			var result = new ResultData<Role>();
 			try
@@ -75,5 +106,37 @@ namespace Nasty.PortalModule.Role
 				return result;
 			}
 		}
-	}
+
+        public ResultData<string> SaveRolePermission(SaveRolePermissionModel model)
+        {
+            var result = new ResultData<string>();
+            try
+            {
+
+                var user = Db.Queryable<Role>().InSingle(model.RoleId);
+                if (user == null)
+                {
+                    result.IsSuccess = false;
+                    result.Message = "角色不存在!";
+                    return result;
+                }
+
+                if (model.PermissionIds.Count > 0)
+                {
+                    var permissions = Db.Queryable<Permission.Permission>().In(model.PermissionIds).ToList();
+                    user.Permissions = permissions;
+                    Db.UpdateNav(user).Include((t) => t.Permissions).ExecuteCommand();
+                }
+
+                result.IsSuccess = true;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.Message = ex.Message;
+                return result;
+            }
+        }
+    }
 }

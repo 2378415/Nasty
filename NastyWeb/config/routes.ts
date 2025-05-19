@@ -19,31 +19,41 @@ export default [
     routes: [
       {
         path: '/system',
-        redirect: '/system/user',        
+        redirect: '/system/user',
       },
       {
         name: 'user',
         icon: 'smile',
         path: '/system/user',
         component: './system/user',
-        access:'verify',
-        roles:["Admin"]
+        access: 'verify',
+        roles: ["Admin"]
       },
       {
         name: 'permissionGroup',
         icon: 'smile',
         path: '/system/permission/group',
         component: './system/permission/group',
-        access:'verify',
-        roles:["Admin"]
+        access: 'verify',
+        roles: ["Admin"]
       },
       {
         name: 'permission',
         icon: 'smile',
         path: '/system/permission/permission',
         component: './system/permission/permission',
-        access:'verify',
-        roles:["Admin"]
+        access: 'verify',
+        roles: ["Admin"]
+      },
+      {
+        name: 'role',
+        icon: 'smile',
+        path: '/system/role',
+        component: './system/role',
+        access: 'verify',
+        roles: ["Admin"]
+        //isUnion: true,
+        //permissions: ["role", "user"]
       }
     ],
   },
@@ -86,17 +96,17 @@ export default [
     routes: [
       {
         path: '/dashboard',
-        redirect: '/dashboard/analysis',        
+        redirect: '/dashboard/analysis',
       },
       {
         name: 'analysis',
         icon: 'smile',
         path: '/dashboard/analysis',
         component: './dashboard/analysis',
-        access:'verify',
-        roles:["Admin"],
-        permissions:["Admin"],
-        isUnion:true,
+        access: 'verify',
+        roles: ["Admin"],
+        permissions: ["Admin"],
+        isUnion: true,
       },
       {
         name: 'monitor',

@@ -73,12 +73,28 @@ function getFileUrl(key: any) {
 const equal = (arr1: string[], arr2: string[]) => {
     if (arr1.length !== arr2.length) return false;
 
+    return contains(arr1, arr1);
+}
+
+const contains = (arr1: string[], arr2: string[]) => {
     const set1 = new Set(arr1);
     const set2 = new Set(arr2);
 
     // 检查每个元素是否都在另一个集合中
     return [...set1].every(item => set2.has(item));
 }
+
+
+function difference(arr1: string[], arr2: string[]) {
+    const setB = new Set(arr2);
+    return arr1.filter(item => !setB.has(item));
+}
+
+function remove(arr1: string[], arr2: string[]) {
+    const setB = new Set(arr2);
+    return arr1.filter(item => !setB.has(item));
+}
+
 
 const getFileListUIDs = (fileList: any[]) => {
     let uids: string[] = [];
@@ -104,5 +120,8 @@ export const util = {
     getFileUrl,
     getFileListUIDs,
     equal,
+    remove,
+    contains,
+    difference,
     isDev
 }

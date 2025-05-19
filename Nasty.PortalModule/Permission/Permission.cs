@@ -1,4 +1,5 @@
-﻿using Nasty.Core.Entity;
+﻿using Nasty.Common.Session;
+using Nasty.Core.Entity;
 using Nasty.PortalModule.User;
 using SqlSugar;
 
@@ -35,6 +36,10 @@ namespace Nasty.PortalModule.Permission
         public override void OnPreAdd()
 		{
 			base.OnPreAdd();
-		}
+
+            var db = AppSession.CurrentDb.Value;
+            var isAny = db.Queryable<PermissionGroup>().Where((t) => t.Code == this.Code).Any();
+            if (isAny) throw new Exception("编码重复");
+        }
 	}
 }

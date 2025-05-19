@@ -7,7 +7,7 @@ import { FormattedMessage, useIntl, useRequest } from '@umijs/max';
 import { Button, message } from 'antd';
 import { FC, cloneElement, useCallback, useRef, useState } from 'react';
 
-async function SavePermissionGroup(options: any) {
+async function SavePermission(options: any) {
     return new Promise<any>((resolve, reject) => {
         HttpClient.post("/Portal/Permission/SavePermission", { ...options })
             .then((data) => {
@@ -45,7 +45,7 @@ const AddModel: FC<any> = (props) => {
      * */
     const intl = useIntl();
 
-    const { run, loading } = useRequest(SavePermissionGroup, {
+    const { run, loading } = useRequest(SavePermission, {
         manual: true,
         onSuccess: () => {
             messageApi.success('提交成功');
@@ -117,7 +117,7 @@ const UpdateModel: FC<any> = (props) => {
      * @zh-CN 国际化配置
      * */
     const intl = useIntl();
-    const { run, loading } = useRequest(SavePermissionGroup, {
+    const { run, loading } = useRequest(SavePermission, {
         manual: true,
         onSuccess: () => {
             messageApi.success('提交成功');
@@ -171,7 +171,7 @@ const UpdateModel: FC<any> = (props) => {
                     name="GroupId"
                     rules={[{ required: true }]}
                 />
-                
+
                 <ProFormText label="权限名称" name="Name" width="xl"
                     rules={[
                         {

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Nasty.Common.LoadParams;
 using Nasty.Common.Registry;
+using Nasty.PortalModule.Areas.Permission.Model;
 using Nasty.PortalModule.Areas.Role.Model;
+using Nasty.PortalModule.Areas.User.Model;
 using NetTaste;
 
 namespace Nasty.PortalModule.Role
@@ -13,7 +15,11 @@ namespace Nasty.PortalModule.Role
 		public ResultData<Role> SaveRole(RoleModel model);
 
 		public ResultData<string> DeleteRoles(List<string> ids);
-	}
+
+        public PageData<Role> GetRolePage(GetRolePageParams @params);
+
+        public ResultData<string> SaveRolePermission(SaveRolePermissionModel model);
+    }
 
 	public class RoleService : IRoleService
 	{
@@ -24,7 +30,12 @@ namespace Nasty.PortalModule.Role
 			return RoleRepository.DeleteRoles(ids);
 		}
 
-		public Role GetRole(string id)
+        public PageData<Role> GetRolePage(GetRolePageParams @params)
+        {
+            return RoleRepository.GetRolePage(@params);
+        }
+
+        public Role GetRole(string id)
 		{
 			return RoleRepository.GetRole(id);
 		}
@@ -34,5 +45,10 @@ namespace Nasty.PortalModule.Role
 		{
 			return RoleRepository.SaveRole(model);
 		}
-	}
+
+        public ResultData<string> SaveRolePermission(SaveRolePermissionModel model)
+        {
+            return RoleRepository.SaveRolePermission(model);
+        }
+    }
 }
