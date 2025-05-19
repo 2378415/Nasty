@@ -36,6 +36,14 @@ export default [
         component: './system/permission/group',
         access:'verify',
         roles:["Admin"]
+      },
+      {
+        name: 'permission',
+        icon: 'smile',
+        path: '/system/permission/permission',
+        component: './system/permission/permission',
+        access:'verify',
+        roles:["Admin"]
       }
     ],
   },

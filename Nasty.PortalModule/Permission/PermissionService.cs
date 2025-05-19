@@ -17,12 +17,16 @@ namespace Nasty.PortalModule.Permission
 
 		public PermissionGroup GetPermissionGroup(string id);
 
-		public ResultData<PermissionGroup> SavePermissionGroup(PermissionGroupModel model);
+        public List<PermissionGroup> GetPermissionGroups(GetPermissionGroupsParams @params);
+
+        public ResultData<PermissionGroup> SavePermissionGroup(PermissionGroupModel model);
 
 		public ResultData<string> DeletePermissionGroups(List<string> ids);
 
 
         public PageData<PermissionGroup> GetPermissionGroupPage(GetPermissionGroupPageParams @params);
+
+        public PageData<Permission> GetPermissionPage(GetPermissionPageParams @params);
     }
 
 	public class PermissionService : IPermissionService
@@ -44,6 +48,11 @@ namespace Nasty.PortalModule.Permission
             return PermissionRepository.GetPermissionGroupPage(@params);
         }
 
+        public PageData<Permission> GetPermissionPage(GetPermissionPageParams @params)
+        {
+            return PermissionRepository.GetPermissionPage(@params);
+        }
+
         public ResultData<Permission> SavePermission(PermissionModel model)
 		{
 			return PermissionRepository.SavePermission(model);
@@ -59,7 +68,12 @@ namespace Nasty.PortalModule.Permission
 			return PermissionRepository.GetPermissionGroup(id);
 		}
 
-		ResultData<PermissionGroup> IPermissionService.SavePermissionGroup(PermissionGroupModel model)
+		public List<PermissionGroup> GetPermissionGroups(GetPermissionGroupsParams @params)
+		{
+            return PermissionRepository.GetPermissionGroups(@params);
+        }
+
+        ResultData<PermissionGroup> IPermissionService.SavePermissionGroup(PermissionGroupModel model)
 		{
 			return PermissionRepository.SavePermissionGroup(model);
 		}

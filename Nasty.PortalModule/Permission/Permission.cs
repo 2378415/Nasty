@@ -26,8 +26,13 @@ namespace Nasty.PortalModule.Permission
 		[SugarColumn(ColumnName = "GroupId")]
 		public string? GroupId { get; set; }
 
+        /// <summary>
+        /// 所属分组
+        /// </summary>
+        [Navigate(NavigateType.OneToOne, nameof(Permission.GroupId))]
+        public PermissionGroup? Group { get; set; }
 
-		public override void OnPreAdd()
+        public override void OnPreAdd()
 		{
 			base.OnPreAdd();
 		}

@@ -2,10 +2,8 @@
 
 namespace Nasty.PortalModule.Areas.Permission.Model
 {
-    public class GetPermissionGroupPageParams : PageParams
+    public class GetPermissionGroupsParams
     {
         public string? Name { get; set; }
-
-        public string? Code { get; set; }
     }
 }

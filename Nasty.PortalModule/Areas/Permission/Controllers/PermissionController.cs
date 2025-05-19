@@ -61,18 +61,41 @@ namespace Nasty.PortalModule.Areas.Permission
 		}
 
 
+        /// <summary>
+        /// 分页查询权限
+        /// </summary>
+        /// <param name="params"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult GetPermissionPage([FromBody] GetPermissionPageParams @params)
+        {
+            var data = m_PermissionService.GetPermissionPage(@params);
+            return Ok(data);
+        }
 
-		/// <summary>
-		/// 查询权限分组
-		/// </summary>
-		/// <param name="params"></param>
-		/// <returns></returns>
-		[HttpPost]
+        /// <summary>
+        /// 查询权限分组
+        /// </summary>
+        /// <param name="params"></param>
+        /// <returns></returns>
+        [HttpPost]
 		public IActionResult GetPermissionGroup([FromBody] SingleParams @params)
 		{
 			var data = m_PermissionService.GetPermissionGroup(@params.Id);
 			return Ok(data);
 		}
+
+        /// <summary>
+        /// 批量查询权限分组
+        /// </summary>
+        /// <param name="params"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult GetPermissionGroups([FromBody] GetPermissionGroupsParams @params)
+        {
+            var data = m_PermissionService.GetPermissionGroups(@params);
+            return Ok(data);
+        }
 
         /// <summary>
         /// 分页查询权限分组

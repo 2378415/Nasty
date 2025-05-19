@@ -23,12 +23,16 @@ namespace Nasty.PortalModule.Permission
 
 		public PermissionGroup GetPermissionGroup(string id);
 
-		public ResultData<PermissionGroup> SavePermissionGroup(PermissionGroupModel model);
+		public List<PermissionGroup> GetPermissionGroups(GetPermissionGroupsParams @params);
+
+
+        public ResultData<PermissionGroup> SavePermissionGroup(PermissionGroupModel model);
 
 		public ResultData<string> DeletePermissionGroups(List<string> ids);
 
 		public PageData<PermissionGroup> GetPermissionGroupPage(GetPermissionGroupPageParams @params);
 
+        public PageData<Permission> GetPermissionPage(GetPermissionPageParams @params);
     }
 
 	public class PermissionRepository : SqlRepository<Permission>, IPermissionRepository
@@ -127,7 +131,7 @@ namespace Nasty.PortalModule.Permission
             var _SQLExpress = Db.Queryable<PermissionGroup>().IncludesAllFirstLayer();
 
             if (!string.IsNullOrEmpty(@params.Name)) _SQLExpress.Where((t) => t.Name.Contains(@params.Name));
-
+            if (!string.IsNullOrEmpty(@params.Code)) _SQLExpress.Where((t) => t.Code.Contains(@params.Code));
             _SQLExpress = _SQLExpress.OrderBy((t) => t.CreateTime, OrderByType.Desc);
 
             var data = _SQLExpress.ToPageList(@params.Current, @params.PageSize, ref total, ref totalPage);
@@ -139,6 +143,37 @@ namespace Nasty.PortalModule.Permission
             pageData.Current = @params.Current;
             pageData.PageSize = @params.PageSize;
             return pageData;
+        }
+
+        public PageData<Permission> GetPermissionPage(GetPermissionPageParams @params)
+        {
+            int totalPage = 0;
+            int total = 0;
+            var pageData = new PageData<Permission>();
+
+            var _SQLExpress = Db.Queryable<Permission>().IncludesAllFirstLayer();
+
+            if (!string.IsNullOrEmpty(@params.Name)) _SQLExpress.Where((t) => t.Name.Contains(@params.Name));
+            if (!string.IsNullOrEmpty(@params.Code)) _SQLExpress.Where((t) => t.Code.Contains(@params.Code));
+            _SQLExpress = _SQLExpress.OrderBy((t) => t.CreateTime, OrderByType.Desc);
+
+            var data = _SQLExpress.ToPageList(@params.Current, @params.PageSize, ref total, ref totalPage);
+
+            pageData.Total = total;
+            pageData.TotalPage = totalPage;
+            pageData.Data = data;
+
+            pageData.Current = @params.Current;
+            pageData.PageSize = @params.PageSize;
+            return pageData;
+        }
+
+        public List<PermissionGroup> GetPermissionGroups(GetPermissionGroupsParams @params)
+        {
+			var _SQLExpress = Db.Queryable<PermissionGroup>();
+            if (!string.IsNullOrEmpty(@params.Name)) _SQLExpress.Where((t) => t.Name.Contains(@params.Name));
+
+			return _SQLExpress.ToList();
         }
     }
 }
