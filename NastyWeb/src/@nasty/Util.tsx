@@ -10,6 +10,7 @@ function getWebFiles(data: string[] | string | undefined) {
     items = items || [];
     let list: any[] = [];
 
+
     items.forEach((t) => {
         let keyName = getFileKeyName(t);
         let url = `${baseUrl}/Portal/File/Preview?key=${t}`
@@ -69,6 +70,31 @@ function getFileUrl(key: any) {
     return `${baseUrl}/Portal/File/Preview?key=${key}`
 }
 
+const equal = (arr1: string[], arr2: string[]) => {
+    if (arr1.length !== arr2.length) return false;
+
+    const set1 = new Set(arr1);
+    const set2 = new Set(arr2);
+
+    // 检查每个元素是否都在另一个集合中
+    return [...set1].every(item => set2.has(item));
+}
+
+const getFileListUIDs = (fileList:any[]) => {
+    let uids: string[] = [];
+    fileList.forEach((t) => {
+        if (t.response) {
+            let img = t.response as string;
+            let uid = img.replace(`_${t.name}`, '');
+            uids.push(uid);
+        } else {
+            uids.push(t.uid);
+        }
+    });
+
+    return uids;
+}
+
 const isDev = process.env.NODE_ENV === 'development';
 
 export const util = {
@@ -76,5 +102,7 @@ export const util = {
     getServiceFiles,
     toLowerCaseKeys,
     getFileUrl,
+    getFileListUIDs,
+    equal,
     isDev
 }

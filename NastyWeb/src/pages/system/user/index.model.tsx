@@ -1,4 +1,5 @@
 import { HttpClient } from '@/@nasty/Axios';
+import { util } from '@/@nasty/Util';
 import Upload from '@/@nasty/components/Upload';
 import { PlusOutlined } from '@ant-design/icons';
 import { ActionType, ModalForm, ProFormInstance, ProFormItem, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
@@ -141,6 +142,7 @@ const UpdateModel: FC<any> = (props) => {
 
     }
 
+
     return (
         <>
             {contextHolder}
@@ -149,7 +151,7 @@ const UpdateModel: FC<any> = (props) => {
                 formRef={formRef}
                 trigger={trigger}
                 width="552px"
-                modalProps={{ okButtonProps: { loading }, onCancel: () => { debugger; } }}
+                modalProps={{ okButtonProps: { loading } }}
                 onFinish={async (value) => {
                     await run({ ...value });
                     return true;
@@ -189,6 +191,9 @@ const UpdateModel: FC<any> = (props) => {
         </>
     );
 };
+
+
+
 
 
 export { AddModel, UpdateModel }
