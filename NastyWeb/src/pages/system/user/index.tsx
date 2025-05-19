@@ -7,7 +7,7 @@ import {
   ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl, useRequest } from '@umijs/max';
-import { Button, Drawer, Input, Modal, message } from 'antd';
+import { Avatar, Button, Drawer, Input, Modal, message } from 'antd';
 import React, { useCallback, useRef, useState } from 'react';
 import { HttpClient } from '@/@nasty/Axios';
 import { util } from '@/@nasty/Util';
@@ -49,9 +49,9 @@ const TableList: React.FC = () => {
       cancelText: '取消',
       onOk: () => {
         HttpClient.post("/Portal/User/DeleteUser", { id: data.Id }).then((res) => {
-          if(res.IsSuccess){
+          if (res.IsSuccess) {
             message.success('提交成功');
-          }else{
+          } else {
             message.success(res.Message);
           }
 
@@ -73,6 +73,14 @@ const TableList: React.FC = () => {
     {
       title: "用户账号",
       dataIndex: 'Account'
+    },
+    {
+      title: "用户头像",
+      dataIndex: 'Avatar',
+      render: (_, record) => {
+        let url = util.getFileUrl(record.Avatar);
+        return <Avatar src={<img src={url} alt="avatar" />} />
+      }
     },
     {
       title: "创建时间",
