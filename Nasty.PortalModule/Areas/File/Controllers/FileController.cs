@@ -49,12 +49,6 @@ namespace Nasty.PortalModule.Areas.File.Controllers
 
             try
             {
-                var res = await m_FileService.GetFile(key);
-                if (!res.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
-                {
-                    return BadRequest("仅支持图片格式预览");
-                }
-
                 // 生成 ETag（可以使用文件的哈希值或其他唯一标识符）
                 var eTag = $"\"{key.GetHashCode()}\"";
 
@@ -63,6 +57,12 @@ namespace Nasty.PortalModule.Areas.File.Controllers
                 {
                     // 如果 ETag 匹配，返回 304 Not Modified
                     return StatusCode(304);
+                }
+
+                var res = await m_FileService.GetFile(key);
+                if (!res.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
+                {
+                    return BadRequest("仅支持图片格式预览");
                 }
 
                 // 设置缓存头
