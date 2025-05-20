@@ -15,12 +15,11 @@ namespace Nasty.PortalModule.Areas.File.Controllers
     {
         private readonly IFileService m_FileService;
         private readonly ILogger<FileController> _logger;
-        private readonly IAmazonS3 m_AmazonS3;
-        public FileController(ILogger<FileController> logger, IFileService p_FileService, IAmazonS3 p_AmazonS3)
+
+        public FileController(ILogger<FileController> logger, IFileService p_FileService)
         {
             _logger = logger;
             m_FileService = p_FileService;
-            m_AmazonS3 = p_AmazonS3;
         }
 
         [HttpPost]

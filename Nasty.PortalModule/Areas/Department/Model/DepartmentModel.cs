@@ -1,9 +1,9 @@
 ﻿using Nasty.Common.Model;
 using SqlSugar;
 
-namespace Nasty.PortalModule.Areas.Permission.Model
+namespace Nasty.PortalModule.Areas.Department.Model
 {
-	public class PermissionModel : SaveModel
+	public class DepartmentModel : SaveModel
 	{
 		/// <summary>
 		/// 名称
@@ -15,9 +15,9 @@ namespace Nasty.PortalModule.Areas.Permission.Model
 		/// </summary>
 		public string? Code { get; set; }
 
-		/// <summary>
-		/// 组Id
-		/// </summary>
-		public string? GroupId { get; set; }
-	}
+        /// <summary>
+        /// 父级部门Id
+        /// </summary>
+        public string? ParentId { get; set; }
+    }
 }

@@ -8,11 +8,11 @@ namespace Nasty.PortalModule.Areas.Permission.Model
 		/// <summary>
 		/// 名称
 		/// </summary>
-		public required string Name { get; set; }
+		public string? Name { get; set; }
 
 		/// <summary>
 		/// 编码
 		/// </summary>
-		public required string Code { get; set; }
+		public string? Code { get; set; }
 	}
 }
