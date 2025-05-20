@@ -24,6 +24,8 @@ namespace Nasty.PortalModule.Department
     {
         public DepartmentRepository(SqlSugarClient db) : base(db)
         {
+            //db.CodeFirst.InitTables(typeof(Department));
+            //db.CodeFirst.InitTables(typeof(DepartmentUser));
         }
 
         public ResultData<string> DeleteDepartments(List<string> ids)
@@ -46,7 +48,7 @@ namespace Nasty.PortalModule.Department
 
         public Department GetDepartment(string id)
         {
-            return this.Db.Queryable<Department>().IncludesAllFirstLayer().InSingle(id);
+            return this.Db.Queryable<Department>().InSingle(id);
         }
 
         public ResultData<Department> SaveDepartment(DepartmentModel model)
@@ -93,9 +95,11 @@ namespace Nasty.PortalModule.Department
         public List<Department> GetDepartments(GetDepartmentsParams @params)
         {
             var _SQLExpress = Db.Queryable<Department>();
-            if (!string.IsNullOrEmpty(@params.Code)) _SQLExpress.Where((t) => t.Code.Contains(@params.Code));
-            if (!string.IsNullOrEmpty(@params.Name)) _SQLExpress.Where((t) => t.Name.Contains(@params.Name));
-            if (!string.IsNullOrEmpty(@params.ParentId)) _SQLExpress.Where((t) => t.ParentId == @params.ParentId);
+            if (!string.IsNullOrEmpty(@params.ParentId))
+                _SQLExpress.Where((t) => t.ParentId == @params.ParentId);
+            else
+                _SQLExpress.Where((t) => string.IsNullOrEmpty(t.ParentId));
+            
             return _SQLExpress.ToList();
         }
     }

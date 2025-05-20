@@ -30,6 +30,14 @@ export default [
         roles: ["Admin"]
       },
       {
+        name: 'department',
+        icon: 'smile',
+        path: '/system/department',
+        component: './system/department',
+        access: 'verify',
+        roles: ["Admin"]
+      },
+      {
         name: 'permissionGroup',
         icon: 'smile',
         path: '/system/permission/group',

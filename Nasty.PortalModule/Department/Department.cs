@@ -24,13 +24,19 @@ namespace Nasty.PortalModule.Department
         /// 父级部门Id
         /// </summary>
         [SugarColumn(ColumnName = "ParentId")]
-        public string? ParentId{ get; set; }
+        public string? ParentId { get; set; }
 
         /// <summary>
         /// 部门角色Id
         /// </summary>
         [SugarColumn(ColumnName = "RoleId")]
         public string? RoleId { get; set; }
+
+        /// <summary>
+        /// 是否末级部门
+        /// </summary>
+        [SugarColumn(ColumnName = "IsLeaf")]
+        public bool? IsLeaf { get; set; }
 
         /// <summary>
         /// 部门角色
@@ -52,16 +58,32 @@ namespace Nasty.PortalModule.Department
 
             try
             {
-                var role = new Role.Role()
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    Name = Name,
-                    Code = Code,
-                };
+                    var role = new Role.Role()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Name = Name,
+                        Code = Code,
+                    };
 
-                db.Insertable(role).ExecuteCommand();
+                    db.Insertable(role).ExecuteCommand();
 
-                this.RoleId = role.Id;
+                    this.RoleId = role.Id;
+                }
+
+                {
+
+                    if (!string.IsNullOrEmpty(this.ParentId))
+                    {
+                        db.Updateable<Department>()
+                         .SetColumns((t) => new Department() { IsLeaf = false })
+                         .Where((t) => t.Id == this.ParentId)
+                         .ExecuteCommand();
+                    }
+                }
+
+
+                this.IsLeaf = true;
             }
             catch (Exception ex)
             {
@@ -76,6 +98,21 @@ namespace Nasty.PortalModule.Department
 
             var db = AppSession.CurrentDb.Value;
             db.Deleteable<Role.Role>().Where((t) => t.Id == this.RoleId).ExecuteCommand();
+
+            {
+                if (!string.IsNullOrEmpty(this.ParentId))
+                {
+                    //父级部门是否存在其他子级部门并且子级部门不等于当前部门
+                    var isAny = db.Queryable<Department>().Where((t) => t.ParentId == t.ParentId && t.Id != t.Id).Any();
+                    if (!isAny)
+                    {
+                        db.Updateable<Department>()
+                             .SetColumns((t) => new Department() { IsLeaf = true })
+                             .Where((t) => t.Id == this.ParentId)
+                             .ExecuteCommand();
+                    }
+                }
+            }
         }
     }
 }

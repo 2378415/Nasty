@@ -111,6 +111,17 @@ const getFileListUIDs = (fileList: any[]) => {
     return uids;
 }
 
+function filterByField(arr: any[], field: string) {
+    const map = new Map();
+    arr.forEach(item => {
+        if (!map.has(item[field])) {
+            map.set(item[field], item);
+        }
+    });
+    return Array.from(map.values());
+}
+
+
 const isDev = process.env.NODE_ENV === 'development';
 
 export const util = {
@@ -122,6 +133,7 @@ export const util = {
     equal,
     remove,
     contains,
+    filterByField,
     difference,
     isDev
 }
