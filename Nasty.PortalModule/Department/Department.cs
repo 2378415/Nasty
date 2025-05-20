@@ -42,14 +42,25 @@ namespace Nasty.PortalModule.Department
 		public override void OnPreAdd()
 		{
 			base.OnPreAdd();
+			var db = AppSession.CurrentDb.Value;
 
-			var role = new Role.Role()
+			try
 			{
-				Id = Guid.NewGuid().ToString(),
-				Name = Name,
-			};
+				var role = new Role.Role()
+				{
+					Id = Guid.NewGuid().ToString(),
+					Name = Name,
+					Code = Code,
+				};
+				
+				db.Insertable(role).ExecuteCommand();
 
-			if (AppSession.CurrentDb.Value != null) AppSession.CurrentDb.Value.Insertable(role).ExecuteCommand();
+				this.RoleId = role.Id;
+            }
+			catch (Exception ex)
+			{
+				throw new Exception("创建部门角色失败", ex);
+			}
 		}
 
 
@@ -57,8 +68,8 @@ namespace Nasty.PortalModule.Department
 		{
 			base.OnPreDelete();
 
-			//var db = AppSession.CurrentDB.Value;
-			//db.Deleteable<UserRole>().Where((t) => t.UserId == this.Id).ExecuteCommand();
+			var db = AppSession.CurrentDb.Value;
+			db.Deleteable<Role.Role>().Where((t) => t.Id == this.RoleId).ExecuteCommand();
 		}
 	}
 }

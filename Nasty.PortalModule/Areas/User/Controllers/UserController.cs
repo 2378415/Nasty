@@ -33,19 +33,7 @@ namespace Nasty.PortalModule.Areas.User
         [HttpPost]
         public IActionResult GetUser([FromBody] SingleParams @params)
         {
-            //            {
-            //                "Arg": "5fFmS1xnEX4BPe7Mnou3Eg=="
-            //}
             var data = m_UserService.GetUser(@params.Id);
-
-            //var result = new ResultData<Nasty.PortalModule.User.User>()
-            //{
-            //    Data = new Nasty.PortalModule.User.User()
-            //    {
-            //        Id = @params.Id,
-            //    },
-            //    IsSuccess = true
-            //};
             return Ok(data);
         }
 
