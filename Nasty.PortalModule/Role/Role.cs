@@ -5,7 +5,7 @@ using SqlSugar;
 namespace Nasty.PortalModule.Role
 {
 	[SugarTable("SysRole")]
-	public class Role : StandardEntity
+	public class Role : StandardEntity<Role>
     {
 		/// <summary>
 		/// 名称

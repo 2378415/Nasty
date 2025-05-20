@@ -5,14 +5,17 @@ using System.Collections;
 using Newtonsoft.Json.Linq;
 using Nasty.Core.SuperExtension;
 using Nasty.Core.Attributes;
+using System;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Xml.Linq;
 
 namespace Nasty.Core.Entity
 {
 	/// <summary>
 	/// 实体类基类
 	/// </summary>
-	public abstract class BaseEntity : IBaseEntity
-	{
+	public abstract class BaseEntity<T> : IBaseEntity, IEquatable<T> where T : class, IBaseEntity, new()
+    {
 		///<summary>
 		///唯一Id 主键
 		///</summary>
@@ -207,6 +210,16 @@ namespace Nasty.Core.Entity
 			return Merge(this, data);
 		}
 
-		#endregion
-	}
+        bool IEquatable<T>.Equals(T? other)
+        {
+            return Id == other.Id;
+        }
+
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.Id);
+        }
+        #endregion
+    }
 }

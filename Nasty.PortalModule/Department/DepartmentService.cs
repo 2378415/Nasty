@@ -1,6 +1,8 @@
-﻿using Nasty.Common.LoadParams;
+﻿using Microsoft.AspNetCore.Mvc;
+using Nasty.Common.LoadParams;
 using Nasty.Common.Registry;
 using Nasty.PortalModule.Areas.Department.Model;
+using Nasty.PortalModule.Areas.User.Model;
 using Nasty.PortalModule.Department;
 
 namespace Nasty.PortalModule.Department
@@ -16,6 +18,12 @@ namespace Nasty.PortalModule.Department
         public ResultData<string> DeleteDepartments(List<string> ids);
 
         public PageData<Department> GetDepartmentPage(GetDepartmentPageParams @params);
+
+        public PageData<User.User> GetDepartmentUserPage(GetDepartmentUserPageParams @params);
+
+        public ResultData<string> SaveDepartmentUser(SaveDepartmentUserModel model);
+
+        public ResultData<string> DeleteDepartmentUser(SaveDepartmentUserModel model);
     }
 
     public class DepartmentService : IDepartmentService
@@ -45,6 +53,21 @@ namespace Nasty.PortalModule.Department
         public List<Department> GetDepartments(GetDepartmentsParams @params)
         {
             return DepartmentRepository.GetDepartments(@params);
+        }
+
+        public PageData<User.User> GetDepartmentUserPage(GetDepartmentUserPageParams @params)
+        {
+            return DepartmentRepository.GetDepartmentUserPage(@params);
+        }
+
+        public ResultData<string> SaveDepartmentUser(SaveDepartmentUserModel model)
+        {
+            return DepartmentRepository.SaveDepartmentUser(model);
+        }
+
+        public ResultData<string> DeleteDepartmentUser(SaveDepartmentUserModel model)
+        {
+            return DepartmentRepository.DeleteDepartmentUser(model);
         }
     }
 }

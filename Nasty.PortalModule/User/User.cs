@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Nasty.PortalModule.User
 {
     [SugarTable("SysUser")]
-    public class User : StandardEntity
+    public class User : StandardEntity<User>
     {
         /// <summary>
         /// 名称

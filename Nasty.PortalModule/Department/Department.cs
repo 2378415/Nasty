@@ -1,12 +1,13 @@
 ﻿using Nasty.Common.Session;
 using Nasty.Core.Entity;
+using Nasty.PortalModule.Permission;
 using Nasty.PortalModule.User;
 using SqlSugar;
 
 namespace Nasty.PortalModule.Department
 {
     [SugarTable("SysDepartment")]
-    public class Department : StandardEntity
+    public class Department : StandardEntity<Department>
     {
         /// <summary>
         /// 名称
@@ -58,6 +59,11 @@ namespace Nasty.PortalModule.Department
 
             try
             {
+                {
+                    var isAny = db.Queryable<Department>().Where((t) => t.Code == this.Code).Any();
+                    if (isAny) throw new Exception("编码重复");
+                }
+
                 {
                     var role = new Role.Role()
                     {

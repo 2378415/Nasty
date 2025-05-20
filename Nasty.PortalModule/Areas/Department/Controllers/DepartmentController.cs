@@ -2,6 +2,7 @@
 using Nasty.Common.LoadParams;
 using Nasty.Core.Attributes;
 using Nasty.PortalModule.Areas.Department.Model;
+using Nasty.PortalModule.Areas.User.Model;
 using Nasty.PortalModule.Department;
 
 namespace Nasty.PortalModule.Areas.Department.Controllers
@@ -80,6 +81,43 @@ namespace Nasty.PortalModule.Areas.Department.Controllers
         public IActionResult GetDepartmentPage([FromBody] GetDepartmentPageParams @params)
         {
             var data = m_DepartmentService.GetDepartmentPage(@params);
+            return Ok(data);
+        }
+
+        /// <summary>
+        /// 分页查询部门
+        /// </summary>
+        /// <param name="params"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult GetDepartmentUserPage([FromBody] GetDepartmentUserPageParams @params)
+        {
+            var data = m_DepartmentService.GetDepartmentUserPage(@params);
+            return Ok(data);
+        }
+
+
+        /// <summary>
+        /// 保存部门用户
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult SaveDepartmentUser([FromBody] SaveDepartmentUserModel model)
+        {
+            var data = m_DepartmentService.SaveDepartmentUser(model);
+            return Ok(data);
+        }
+
+        /// <summary>
+        /// 删除部门用户
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult DeleteDepartmentUser([FromBody] SaveDepartmentUserModel model)
+        {
+            var data = m_DepartmentService.DeleteDepartmentUser(model);
             return Ok(data);
         }
     }

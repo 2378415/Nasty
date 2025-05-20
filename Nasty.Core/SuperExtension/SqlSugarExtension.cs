@@ -49,7 +49,7 @@ namespace Nasty.Core.SuperExtension
             foreach (var model in models)
             {
                 T? entity = null;
-                entity = BaseEntity.Merge(entity, model);
+                entity = BaseEntity<T>.Merge(entity, model);
                 if (entity != null) client.Add(entity);
             }
         }
@@ -205,7 +205,7 @@ namespace Nasty.Core.SuperExtension
             if (string.IsNullOrEmpty(model.Id)) model.Id = SnowFlakeSingle.Instance.NextId().ToString();
             var obj = client.Queryable<T>().InSingle(model.Id);
 
-            var data = BaseEntity.Merge(obj, model);
+            var data = BaseEntity<T>.Merge(obj, model);
 
             if (obj != null)
             {

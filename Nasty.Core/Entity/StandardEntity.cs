@@ -3,7 +3,7 @@ using SqlSugar;
 
 namespace Nasty.Core.Entity
 {
-    public abstract class StandardEntity : BaseEntity
+    public abstract class StandardEntity<T> : BaseEntity<T> where T : class, IBaseEntity, new()
     {
         [SugarColumn(ColumnName = "CreateTime", IsOnlyIgnoreUpdate = true)]
         public DateTime? CreateTime { get; set; }
