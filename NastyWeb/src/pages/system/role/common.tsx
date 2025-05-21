@@ -5,6 +5,11 @@ export const roleTypes = [
     { label: "普通", value: 3 },
 ]
 
+export const roleType = {
+    System: 1,
+    Department: 2,
+    Normal: 3,
+}
 
 export const getRoleTypeText = (v: any) => {
     let type = roleTypes.find((t) => t.value == v);

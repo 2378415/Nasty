@@ -15,54 +15,54 @@ using System.Threading.Tasks;
 
 namespace Nasty.PortalModule.Role
 {
-	public interface IRoleRepository : IRepository<Role>
-	{
-		public Role GetRole(string id);
+    public interface IRoleRepository : IRepository<Role>
+    {
+        public Role GetRole(string id);
 
-		public ResultData<Role> SaveRole(RoleModel model);
+        public ResultData<Role> SaveRole(RoleModel model);
 
-		public ResultData<string> DeleteRoles(List<string> ids);
+        public ResultData<string> DeleteRoles(List<string> ids);
 
-		public PageData<Role> GetRolePage(GetRolePageParams @params);
+        public PageData<Role> GetRolePage(GetRolePageParams @params);
 
-		public ResultData<string> SaveRolePermission(SaveRolePermissionModel model);
+        public ResultData<string> SaveRolePermission(SaveRolePermissionModel model);
 
-		public List<Role> GetRoles(GetRolesParams @params);
+        public List<Role> GetRoles(GetRolesParams @params);
     }
 
-	public class RoleRepository : SqlRepository<Role>, IRoleRepository
-	{
-		public RoleRepository(SqlSugarClient db) : base(db)
-		{
-		}
+    public class RoleRepository : SqlRepository<Role>, IRoleRepository
+    {
+        public RoleRepository(SqlSugarClient db) : base(db)
+        {
+        }
 
-		public ResultData<string> DeleteRoles(List<string> ids)
-		{
-			var result = new ResultData<string>();
-			try
-			{
+        public ResultData<string> DeleteRoles(List<string> ids)
+        {
+            var result = new ResultData<string>();
+            try
+            {
                 var roles = Db.Queryable<Role>().In(ids).ToList();
                 foreach (var role in roles)
                 {
                     if (role.Type != RoleType.Normal) throw new Exception("系统/部门角色无法删除");
-                    Db.Delete(role); 
+                    Db.Delete(role);
                 }
 
                 result.IsSuccess = true;
-				return result;
-			}
-			catch (Exception ex)
-			{
-				result.IsSuccess = false;
-				result.Message = ex.Message;
-				return result;
-			}
-		}
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.Message = ex.Message;
+                return result;
+            }
+        }
 
-		public Role GetRole(string id)
-		{
-			return this.Db.Queryable<Role>().IncludesAllFirstLayer().InSingle(id);
-		}
+        public Role GetRole(string id)
+        {
+            return this.Db.Queryable<Role>().IncludesAllFirstLayer().InSingle(id);
+        }
 
         public PageData<Role> GetRolePage(GetRolePageParams @params)
         {
@@ -74,6 +74,8 @@ namespace Nasty.PortalModule.Role
 
             if (!string.IsNullOrEmpty(@params.Name)) _SQLExpress.Where((t) => t.Name.Contains(@params.Name));
             if (!string.IsNullOrEmpty(@params.Code)) _SQLExpress.Where((t) => t.Code.Contains(@params.Code));
+            if (@params.Types != null && @params.Types.Count > 0) _SQLExpress.Where((t) => @params.Types.Contains(t.Type));
+
             _SQLExpress = _SQLExpress.OrderBy((t) => t.CreateTime, OrderByType.Desc);
 
             var data = _SQLExpress.ToPageList(@params.Current, @params.PageSize, ref total, ref totalPage);
@@ -92,33 +94,35 @@ namespace Nasty.PortalModule.Role
             var _SQLExpress = Db.Queryable<Role>();
             if (!string.IsNullOrEmpty(@params.Name)) _SQLExpress.Where((t) => t.Name.Contains(@params.Name));
             if (!string.IsNullOrEmpty(@params.Code)) _SQLExpress.Where((t) => t.Code.Contains(@params.Code));
+            if (@params.Types != null && @params.Types.Count > 0) _SQLExpress.Where((t) => @params.Types.Contains(t.Type));
+
             return _SQLExpress.ToList();
         }
 
         public ResultData<Role> SaveRole(RoleModel model)
-		{
-			var result = new ResultData<Role>();
-			try
-			{
-				var data = Db.Save<Role>(model);
+        {
+            var result = new ResultData<Role>();
+            try
+            {
+                var data = Db.Save<Role>(model);
 
-				if (model.PermissionIds != null && model.PermissionIds.Count > 0 && data != null)
-				{
-					var objs = Db.Queryable<Permission.Permission>().In(model.PermissionIds).ToList();
-					data.Permissions = objs;
-					Db.UpdateNav(data).Include((t) => t.Permissions).ExecuteCommand();
-				}
+                if (model.PermissionIds != null && model.PermissionIds.Count > 0 && data != null)
+                {
+                    var objs = Db.Queryable<Permission.Permission>().In(model.PermissionIds).ToList();
+                    data.Permissions = objs;
+                    Db.UpdateNav(data).Include((t) => t.Permissions).ExecuteCommand();
+                }
 
-				result.IsSuccess = true;
-				return result;
-			}
-			catch (Exception ex)
-			{
-				result.IsSuccess = false;
-				result.Message = ex.Message;
-				return result;
-			}
-		}
+                result.IsSuccess = true;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.Message = ex.Message;
+                return result;
+            }
+        }
 
         public ResultData<string> SaveRolePermission(SaveRolePermissionModel model)
         {

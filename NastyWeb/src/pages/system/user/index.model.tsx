@@ -6,6 +6,7 @@ import { ActionType, ModalForm, ProFormInstance, ProFormItem, ProFormSelect, Pro
 import { FormattedMessage, useIntl, useRequest } from '@umijs/max';
 import { Button, message } from 'antd';
 import { FC, cloneElement, useCallback, useRef, useState } from 'react';
+import { roleType } from '../role/common';
 
 async function SaveUser(options: any) {
     return new Promise<any>((resolve, reject) => {
@@ -212,7 +213,7 @@ async function getRolesApi(
     options?: any,
 ) {
     return new Promise((resolve, reject) => {
-        HttpClient.post("/Portal/Role/GetRoles", { ...params })
+        HttpClient.post("/Portal/Role/GetRoles", { ...params, Types: [roleType.Normal, roleType.System] })
             .then((data) => {
                 let items = data.map((t: any) => { return { label: t.Name, value: t.Id } });
                 resolve(items);
