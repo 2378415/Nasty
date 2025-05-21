@@ -1,4 +1,6 @@
-﻿using Nasty.Core.Entity;
+﻿using Nasty.Common.Session;
+using Nasty.Core.Entity;
+using Nasty.PortalModule.Department;
 using Nasty.PortalModule.User;
 using SqlSugar;
 
@@ -24,5 +26,19 @@ namespace Nasty.PortalModule.Role
 		/// </summary>
 		[Navigate(typeof(RolePermission), nameof(RolePermission.RoleId), nameof(RolePermission.PermissionId))]
 		public List<Permission.Permission>? Permissions { get; set; }
-	}
+
+
+
+        public override void OnPreDelete()
+        {
+            base.OnPreDelete();
+
+			var db = AppSession.CurrentDb.Value;
+
+            {
+                db.Deleteable<RolePermission>().Where((t) => t.RoleId == this.Id).ExecuteCommand();
+            }
+        }
+
+    }
 }

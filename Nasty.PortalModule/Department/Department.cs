@@ -1,5 +1,6 @@
 ﻿using Nasty.Common.Session;
 using Nasty.Core.Entity;
+using Nasty.Core.SuperExtension;
 using Nasty.PortalModule.Permission;
 using Nasty.PortalModule.User;
 using SqlSugar;
@@ -67,12 +68,11 @@ namespace Nasty.PortalModule.Department
                 {
                     var role = new Role.Role()
                     {
-                        Id = Guid.NewGuid().ToString(),
                         Name = Name,
                         Code = Code,
                     };
 
-                    db.Insertable(role).ExecuteCommand();
+                    db.Save<Role.Role>(role);
 
                     this.RoleId = role.Id;
                 }
@@ -104,6 +104,11 @@ namespace Nasty.PortalModule.Department
 
             var db = AppSession.CurrentDb.Value;
             db.Deleteable<Role.Role>().Where((t) => t.Id == this.RoleId).ExecuteCommand();
+
+            {
+
+                db.Deleteable<DepartmentUser>().Where((t) => t.DepartmentId == this.Id).ExecuteCommand();
+            }
 
             {
                 if (!string.IsNullOrEmpty(this.ParentId))

@@ -8,9 +8,9 @@ namespace Nasty.PortalModule.User
 	public class UserRole
 	{
 		[SugarColumn(IsPrimaryKey = true, ColumnName = "UserId")]
-		public required string UserId { get; set; }
+		public string? UserId { get; set; }
 
 		[SugarColumn(IsPrimaryKey = true, ColumnName = "RoleId")]
-		public required string RoleId { get; set; }
+		public string? RoleId { get; set; }
 	}
 }

@@ -9,9 +9,9 @@ namespace Nasty.PortalModule.Department
 	public class DepartmentUser
 	{
 		[SugarColumn(IsPrimaryKey = true, ColumnName = "DepartmentId")]
-		public required string DepartmentId { get; set; }
+		public string? DepartmentId { get; set; }
 
 		[SugarColumn(IsPrimaryKey = true, ColumnName = "UserId")]
-		public required string UserId { get; set; }
+		public string? UserId { get; set; }
 	}
 }

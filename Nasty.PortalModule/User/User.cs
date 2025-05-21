@@ -61,8 +61,11 @@ namespace Nasty.PortalModule.User
         {
             base.OnPreDelete();
 
-            //var db = AppSession.CurrentDB.Value;
-            //db.Deleteable<UserRole>().Where((t) => t.UserId == this.Id).ExecuteCommand();
+            var db = AppSession.CurrentDb.Value;
+
+            {
+                db.Deleteable<UserRole>().Where((t) => t.UserId == this.Id).ExecuteCommand();
+            }
         }
     }
 }

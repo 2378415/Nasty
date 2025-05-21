@@ -218,5 +218,26 @@ namespace Nasty.Core.SuperExtension
 
             return data;
         }
+
+        public static T? Save<T>(this SqlSugarClient client, IBaseEntity entity) where T: class, IBaseEntity, new()
+        {
+
+
+            if (string.IsNullOrEmpty(entity.Id)) entity.Id = SnowFlakeSingle.Instance.NextId().ToString();
+            var obj = client.Queryable<T>().InSingle(entity.Id);
+
+            var data = BaseEntity<T>.Merge(obj, entity);
+
+            if (obj != null)
+            {
+                if (data != null) client.Update(data);
+            }
+            else
+            {
+                if (data != null) client.Add(data);
+            }
+
+            return data;
+        }
     }
 }
