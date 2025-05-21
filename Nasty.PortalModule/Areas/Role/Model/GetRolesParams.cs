@@ -9,6 +9,6 @@ namespace Nasty.PortalModule.Areas.Role.Model
 
         public string? Code { get; set; }
 
-        public List<RoleType?> Types { get; set; }
+        public List<RoleType?>? Types { get; set; }
     }
 }
