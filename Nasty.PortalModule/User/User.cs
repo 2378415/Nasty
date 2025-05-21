@@ -72,6 +72,10 @@ namespace Nasty.PortalModule.User
             {
                 db.Deleteable<UserRole>().Where((t) => t.UserId == this.Id).ExecuteCommand();
             }
+
+            {
+                db.Deleteable<DepartmentUser>().Where((t) => t.UserId == this.Id).ExecuteCommand();
+            }
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Nasty.PortalModule.Role
         public RoleType? Type { get; set; }
 
         /// <summary>
-        /// 用户权限
+        /// 角色权限
         /// </summary>
         [Navigate(typeof(RolePermission), nameof(RolePermission.RoleId), nameof(RolePermission.PermissionId))]
         public List<Permission.Permission>? Permissions { get; set; }
@@ -52,6 +52,10 @@ namespace Nasty.PortalModule.Role
 
             {
                 db.Deleteable<RolePermission>().Where((t) => t.RoleId == this.Id).ExecuteCommand();
+            }
+
+            {
+                db.Deleteable<UserRole>().Where((t) => t.RoleId == this.Id).ExecuteCommand();
             }
         }
 

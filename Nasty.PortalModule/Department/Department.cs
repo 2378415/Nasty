@@ -108,7 +108,6 @@ namespace Nasty.PortalModule.Department
             db.Deleteable<Role.Role>().Where((t) => t.Id == this.RoleId).ExecuteCommand();
 
             {
-
                 db.Deleteable<DepartmentUser>().Where((t) => t.DepartmentId == this.Id).ExecuteCommand();
             }
 

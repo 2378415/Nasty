@@ -70,7 +70,7 @@ namespace Nasty.PortalModule.Role
             int total = 0;
             var pageData = new PageData<Role>();
 
-            var _SQLExpress = Db.Queryable<Role>().IncludesAllFirstLayer();
+            var _SQLExpress = Db.Queryable<Role>();
 
             if (!string.IsNullOrEmpty(@params.Name)) _SQLExpress.Where((t) => t.Name.Contains(@params.Name));
             if (!string.IsNullOrEmpty(@params.Code)) _SQLExpress.Where((t) => t.Code.Contains(@params.Code));
