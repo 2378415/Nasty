@@ -12,6 +12,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { HttpClient } from '@/@nasty/Axios';
 import { util } from '@/@nasty/Util';
 import { AddModel, SetRolePermissionModel, UpdateModel } from './index.model';
+import { getRoleTypeText, isNormalRole } from './common';
 
 async function getPageApi(
   params: any,
@@ -53,7 +54,7 @@ const TableList: React.FC = () => {
           if (res.IsSuccess) {
             message.success('提交成功');
           } else {
-            message.success(res.Message);
+            message.error(res.Message);
           }
 
           reload();
@@ -76,6 +77,12 @@ const TableList: React.FC = () => {
       dataIndex: 'Code'
     },
     {
+      title: "角色类型",
+      dataIndex: 'Type',
+      hideInSearch: true,
+      render: (_, record) => getRoleTypeText(record.Type)
+    },
+    {
       title: "创建时间",
       dataIndex: 'CreateTime',
       hideInSearch: true,
@@ -89,23 +96,29 @@ const TableList: React.FC = () => {
       title: "操作",
       dataIndex: 'option',
       valueType: 'option',
-      render: (_, record) => [
-        <UpdateModel
-          trigger={<a>{"编辑"}</a>}
-          key="update"
-          values={record}
-          reload={reload}
-        />,
-        <SetRolePermissionModel
-          trigger={<a>{"权限"}</a>}
-          key="permission"
-          values={record}
-          reload={reload}
-        />,
-        <a key="delete" onClick={() => { handleRemove(record); }}>
-          {"删除"}
-        </a>,
-      ],
+      render: (_, record) => {
+        let actions = [
+          <SetRolePermissionModel
+            trigger={<a>{"权限"}</a>}
+            key="permission"
+            values={record}
+            reload={reload}
+          />
+        ]
+
+        if (isNormalRole(record.Type)) {
+          actions.push(<UpdateModel
+            trigger={<a>{"编辑"}</a>}
+            key="update"
+            values={record}
+            reload={reload}
+          />)
+          actions.push(<a key="delete" onClick={() => { handleRemove(record); }}>
+            {"删除"}
+          </a>)
+        }
+        return actions;
+      },
     },
   ];
 

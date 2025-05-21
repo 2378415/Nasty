@@ -1,6 +1,7 @@
 ﻿using Nasty.Common.Session;
 using Nasty.Core;
 using Nasty.Core.Entity;
+using Nasty.PortalModule.Department;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,11 @@ namespace Nasty.PortalModule.User
         [Navigate(typeof(UserRole), nameof(UserRole.UserId), nameof(UserRole.RoleId))]
         public List<Role.Role>? Roles { get; set; }
 
+        /// <summary>
+        /// 用户部门
+        /// </summary>
+        [Navigate(typeof(DepartmentUser), nameof(DepartmentUser.UserId), nameof(DepartmentUser.DepartmentId))]
+        public List<Department.Department>? Departments { get; set; }
 
         public override void OnPreAdd()
         {

@@ -2,6 +2,7 @@
 using Nasty.Core.Entity;
 using Nasty.Core.SuperExtension;
 using Nasty.PortalModule.Permission;
+using Nasty.PortalModule.Role;
 using Nasty.PortalModule.User;
 using SqlSugar;
 
@@ -68,6 +69,7 @@ namespace Nasty.PortalModule.Department
                 {
                     var role = new Role.Role()
                     {
+                        Type  = RoleType.Department,
                         Name = Name,
                         Code = Code,
                     };

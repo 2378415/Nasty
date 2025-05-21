@@ -41,9 +41,14 @@ namespace Nasty.PortalModule.Role
 			var result = new ResultData<string>();
 			try
 			{
-				Db.Delete<Role>(ids);
+                var roles = Db.Queryable<Role>().In(ids).ToList();
+                foreach (var role in roles)
+                {
+                    if (role.Type != RoleType.Normal) throw new Exception("系统/部门角色无法删除");
+                    Db.Delete(role); 
+                }
 
-				result.IsSuccess = true;
+                result.IsSuccess = true;
 				return result;
 			}
 			catch (Exception ex)

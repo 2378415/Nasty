@@ -53,7 +53,7 @@ const TableList: React.FC = () => {
           if (res.IsSuccess) {
             message.success('提交成功');
           } else {
-            message.success(res.Message);
+            message.error(res.Message);
           }
 
           reload();

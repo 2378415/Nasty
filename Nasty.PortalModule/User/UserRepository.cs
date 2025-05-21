@@ -63,7 +63,10 @@ namespace Nasty.PortalModule.User
 
         public User GetDeepUser(string id)
         {
-            return this.Db.Queryable<User>().IncludesAllFirstLayer().Includes((t) => t.Roles, (s) => s.Permissions).InSingle(id);
+            return this.Db.Queryable<User>().IncludesAllFirstLayer()
+                .Includes((t) => t.Roles, (s) => s.Permissions)
+                .Includes((t) => t.Departments, (s) => s.Role, (r) => r.Permissions)
+                .InSingle(id);
         }
 
         public ResultData<string> InitSA(string password)
